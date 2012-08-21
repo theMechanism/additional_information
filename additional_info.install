@@ -1,0 +1,27 @@
+<?php
+function additional_info_field_schema($field) {
+  switch($field['type']) {
+    case 'additional_info_additional':
+      $columns =   array(
+          'category' => array(
+            'type' => 'varchar',
+            'length' => '128',
+            'not null' => FALSE,
+            ),
+          'name' => array(
+            'type' => 'varchar',
+            'length' => '128',
+            'not null' => FALSE,
+            ),
+        );
+      break;
+  }
+  return array(
+    'columns' => $columns,
+    );
+}
+
+
+
+
+?>

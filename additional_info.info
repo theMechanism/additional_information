@@ -1,0 +1,7 @@
+name = Additional Information Field 
+description = Adds CCK field with two text fields.
+package = Other
+core = 7.x
+version = 7.x-1.0beta
+files[] = additional_info.install
+files[] = additional_info.module
