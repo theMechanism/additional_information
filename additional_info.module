@@ -2,107 +2,122 @@
 /**
  * implement hook_field_*() to create an additional information field widget for awards
  */
-function additional_info_field_info() {
-  return array(
-      'additional_info_additional' => array(
-        'label' => t('Additional Information'),
-        'description' => t("This field stores Additional Type Category i.e. author, publisher, etc. and the associated name"),
-        'settings' => array('allowed_values' => array(), 'allowed_values_function' => ''),
-        'default_widget' => 'additional_info_additional',
-        'default_formatter' => 'additional_info_additional', // This doesn't *have* to be the same name as default_widget's value, this is only coincidence
-        ),
-
-      );
+function additional_info_field_info()
+{
+    return array(
+        'additional_info_additional' => array(
+            'label' => t('Additional Information'),
+            'description' => t("This field stores Additional Type Category i.e. author, publisher, etc. and the associated name"),
+            'settings' => array(
+                'allowed_values' => array(),
+                'allowed_values_function' => ''
+            ),
+            'default_widget' => 'additional_info_additional',
+            'default_formatter' => 'additional_info_additional' // This doesn't *have* to be the same name as default_widget's value, this is only coincidence
+        )
+        
+    );
 }
 
-function additional_info_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $settings = $form_state['field'][$instance['field_name']][$langcode]['field']['settings'];
 
-  $fields = array(
-      'category' => t('Category'),
-      'name' => t('Name'),
-      );
-
-  foreach ($fields as $key => $label) {
-    $value = isset($items[$delta][$key]) ? $items[$delta][$key] : '';
-
-    $element[$key] = array(
-        '#type' => 'textfield',
-        '#size' => 30,
-        '#maxlength' => 128,
-        '#title' => $label,
-        '#default_value' => $value,
+function additional_info_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element)
+{
+    $settings = $form_state['field'][$instance['field_name']][$langcode]['field']['settings'];
+    
+    $fields = array(
+        'category' => t('Category'),
+        'name' => t('Name')
+    );
+    
+    foreach ($fields as $key => $label) {
+        $value = isset($items[$delta][$key]) ? $items[$delta][$key] : '';
+        
+        $element[$key] = array(
+            '#type' => 'textfield',
+            '#size' => 30,
+            '#maxlength' => 128,
+            '#title' => $label,
+            '#default_value' => $value
         );
-  }
-  return $element;
+    }
+    return $element;
 }
 
 
-function additional_info_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = array();
-  $data = '';
-  $last_cat = '';
-  $i = 0;
-  switch ($display['type']) {
-    case 'additional_info_additional':
-// dpm($items);
-      $category = '';
-      foreach($items AS $delta => $item) {
-        // Modify the output of the additional information here:
-/*        if ($item['category'] != $last_cat) {
-          if (($last_cat != '') || ($i > 0)) {
-            $data .= $item['category'] . ': '; 
-          }
-          $last_cat = '';
-        }
-        if ($last_cat = '') {
-          $data .= ', ' . $item['name'];
-        } else {
-          $data .= $item['name'];
-        }
-        $i++;
-        $last_cat = $item['category'];
-   */   
-          $element[$delta]['#markup'] = '<div class="award-additional">' . $item['category'] . ': ' . $item['name'] . '</div>';
-        }
-      break;
-  }
- // $element[$delta]['#markup'] = '<div class="award-additional">' . $data . '</div>';
-  return $element;
+function additional_info_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display)
+{
+    $element  = array();
+    $data     = '';
+    $last_cat = '';
+    $i        = 0;
+    switch ($display['type']) {
+        case 'additional_info_additional':
+            // dpm($items);
+            $category = '';
+            foreach ($items AS $delta => $item) {
+                // Modify the output of the additional information here:
+                
+                /*        if ($item['category'] != $last_cat) {
+                if (($last_cat != '') || ($i > 0)) {
+                $data .= $item['category'] . ': '; 
+                }
+                $last_cat = '';
+                }
+                if ($last_cat = '') {
+                $data .= ', ' . $item['name'];
+                } else {
+                $data .= $item['name'];
+                }
+                $i++;
+                $last_cat = $item['category'];
+                */
+                $element[$delta]['#markup'] = '<div class="award-additional">' . $item['category'] . ': ' . $item['name'] . '</div>';
+            }
+            break;
+    }
+    // $element[$delta]['#markup'] = '<div class="award-additional">' . $data . '</div>';
+    return $element;
 }
 
 
-
-function additional_info_field_formatter_info() {
-  return array(
-      'additional_info_additional' => array(
-        'label' => t('Additional Information'),
-        'field types' => array('additional_info_additional'),
-        ),
-      );
+function additional_info_field_formatter_info()
+{
+    return array(
+        'additional_info_additional' => array(
+            'label' => t('Additional Information'),
+            'field types' => array(
+                'additional_info_additional'
+            )
+        )
+    );
 }
 
 
-function additional_info_field_widget_info() {
-  return array(
-      'additional_info_additional' => array(
-        'label' => t('Additional Information'),
-        'field types' => array('additional_info_additional'),
-        ),
-      );
+function additional_info_field_widget_info()
+{
+    return array(
+        'additional_info_additional' => array(
+            'label' => t('Additional Information'),
+            'field types' => array(
+                'additional_info_additional'
+            )
+        )
+    );
 }
 
 
-function additional_info_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-  foreach ($items as $delta => $item) {
-     // ...
-  }
+function additional_info_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors)
+{
+    foreach ($items as $delta => $item) {
+        // ...
+    }
 }
 
-function additional_info_field_is_empty($item, $field) {
-  $temp = array_keys($field['columns']);
-  $key = array_shift($temp);
-  return empty($item[$key]);
-}
 
+function additional_info_field_is_empty($item, $field)
+{
+    $temp = array_keys($field['columns']);
+    $key  = array_shift($temp);
+    return empty($item[$key]);
+}
 ?>
